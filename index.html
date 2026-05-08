@@ -39,15 +39,23 @@
             --color-ref-orange: #FF6B00;
         }
 
+        /* 鎖定網頁頂部，防止橡皮筋回彈與拖拽位移 */
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 禁止全域滾動 */
+            overscroll-behavior: none; /* 關鍵：禁止行動裝置下拉重新整理與回彈 */
+            position: fixed; /* 徹底固定位置 */
+        }
+
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--color-bg);
-            margin: 0;
-            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center; 
-            min-height: 100vh;
             color: var(--color-line);
         }
 
@@ -55,7 +63,6 @@
             width: 100%;
             max-width: 414px;
             height: 100dvh; 
-            max-height: 850px; 
             background-color: var(--color-white); 
             position: relative;
             overflow: hidden; 
@@ -65,6 +72,7 @@
             border-right: 2px solid var(--color-line);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: background-color 0.5s ease;
+            overscroll-behavior: none;
         }
 
         /* ================= 跑馬燈動畫 ================= */
@@ -105,6 +113,8 @@
             background-color: var(--color-white);
             overflow-y: auto; 
             overflow-x: hidden;
+            /* 針對頁面內部的滾動也要防止回彈 */
+            overscroll-behavior-y: contain; 
         }
         .page.active {
             display: flex;
@@ -207,11 +217,10 @@
 
         /* ================= 特效：發光發熱 (新增發光動畫效果) ================= */
         .text-shining-effect {
-            color: #FF6B00; /* 亮橘色 */
+            color: #FF6B00; 
             font-style: italic;
             -webkit-text-stroke: 4px #FFFFFF;
             paint-order: stroke fill;
-            /* 組合：立體陰影 + 發光光暈 */
             filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6)) 
                     drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
             letter-spacing: -0.02em;
@@ -237,97 +246,92 @@
 
     <div id="app-container">
         
-        <!-- 首頁 (上綠下白漸層) -->
-        <div id="page-home" class="page active" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
+        <!-- 首頁 (優化排版，移除垂直捲動並固定於頂部) -->
+        <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
             
-            <!-- 背景網格：優化為傾斜 30 度並填滿畫面 -->
+            <!-- 背景網格 -->
             <div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none transform -rotate-[30deg] opacity-[0.1]" 
                  style="background-image: linear-gradient(var(--color-ref-blue) 1px, transparent 1px), linear-gradient(90deg, var(--color-ref-blue) 1px, transparent 1px); background-size: 25px 25px;">
             </div>
             
-            <!-- 背景裝飾點 (原有的小點) -->
+            <!-- 背景裝飾點 -->
             <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 15px 15px;"></div>
             
             <!-- 裝飾流體色塊 -->
             <div class="absolute -top-10 -left-10 w-48 h-48 bg-[#FFF2A7] rounded-full opacity-30 blur-3xl"></div>
             <div class="absolute top-1/4 -right-10 w-40 h-40 border-[4px] border-[#111] rounded-full opacity-10"></div>
 
-            <div class="flex-grow flex flex-col relative z-10">
-                <!-- Header -->
-                <div class="p-5 flex justify-between items-center">
+            <div class="flex-grow flex flex-col relative z-10 h-full">
+                <!-- Header (鎖定於頂部) -->
+                <div class="p-5 flex justify-between items-center flex-shrink-0">
                     <div class="flex items-center gap-2 h-5">
                         <div class="w-5 h-5 rounded-full border-2 border-[#111] bg-white"></div>
-                        <div class="font-black text-[10px] leading-none pt-[2px]">
-                            2026WORK
-                        </div>
+                        <div class="font-black text-[10px] leading-none pt-[2px]">2026WORK</div>
                     </div>
                     <div class="h-5 flex items-center">
-                        <div class="text-[10px] font-black tracking-widest leading-none pt-[2px]">
-                            YOUR WORKPLACE TYPE IS
-                        </div>
+                        <div class="text-[10px] font-black tracking-widest leading-none pt-[2px]">YOUR WORKPLACE TYPE IS</div>
                     </div>
                 </div>
 
-                <!-- 主標題區 -->
-                <div class="px-5 mt-8 relative">
-                    <div class="absolute -top-4 right-8 text-[#111] opacity-30 text-xl"><i class="ph-bold ph-plus"></i></div>
-                    
-                    <div class="relative inline-block">
-                        <!-- 參考圖藍色文字 -->
-                        <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D]">天生就該</div>
-                        <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0">天生就該</div>
-                    </div>
-                    
-                    <div class="relative mt-2">
-                        <!-- 套用發光特效 -->
-                        <div class="text-7xl font-black tracking-tighter leading-none text-shining-effect relative z-10">發光發熱</div>
-                        <!-- 黃色高光底色保留作為襯托 -->
-                        <div class="absolute -bottom-1 left-0 w-full h-8 bg-[#D5E86D] -z-10 transform -rotate-1 opacity-60"></div>
-                    </div>
-                </div>
-
-                <!-- 測驗介紹框 -->
-                <div class="px-5 mt-10 relative">
-                    <div class="bg-white border-2 border-[#111] p-6 relative shadow-[8px_8px_0_#111]">
-                        <!-- 參考圖藍色背景標籤 -->
-                        <div class="absolute -top-3 left-4 bg-[#004B8D] text-white px-3 py-0.5 text-xs font-black italic tracking-widest">DISCOVERY</div>
-                        <p class="font-bold leading-relaxed text-sm text-[#111]">
-                            在危機四伏的職場叢林中，<br>
-                            你扮演著什麼樣的角色？<br><br>
-                            是默默耕耘的牛？還是雷厲風行的豹？<br>
-                            只需 5 題，立刻測出你的隱藏屬性與生存法則！
-                        </p>
+                <!-- 內容分配 -->
+                <div class="flex-grow flex flex-col justify-between py-6">
+                    <!-- 主標題區 -->
+                    <div class="px-5 relative">
+                        <div class="absolute -top-4 right-8 text-[#111] opacity-30 text-xl"><i class="ph-bold ph-plus"></i></div>
                         
-                        <div class="mt-4 flex items-center justify-between opacity-40">
-                            <div class="flex gap-1">
-                                <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
-                                <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
-                                <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
-                            </div>
-                            <i class="ph-bold ph-lightning text-xl"></i>
+                        <div class="relative inline-block">
+                            <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D]">天生就該</div>
+                            <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0">天生就該</div>
+                        </div>
+                        
+                        <div class="relative mt-2">
+                            <div class="text-7xl font-black tracking-tighter leading-none text-shining-effect relative z-10">發光發熱</div>
+                            <div class="absolute -bottom-1 left-0 w-full h-8 bg-[#D5E86D] -z-10 transform -rotate-1 opacity-60"></div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 按鈕區 -->
-                <div class="mt-14 p-5 w-full relative flex justify-center">
-                    <button onclick="startQuiz()" class="w-[75%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black text-lg py-3 rounded-full hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
-                        START DISCOVERY
-                        <i class="ph-bold ph-arrow-right"></i>
-                    </button>
+                    <!-- 測驗介紹框 -->
+                    <div class="px-5 relative">
+                        <div class="bg-white border-2 border-[#111] p-6 relative shadow-[8px_8px_0_#111]">
+                            <div class="absolute -top-3 left-4 bg-[#004B8D] text-white px-3 py-0.5 text-xs font-black italic tracking-widest">DISCOVERY</div>
+                            <p class="font-bold leading-relaxed text-sm text-[#111]">
+                                在危機四伏的職場叢林中，<br>
+                                你扮演著什麼樣的角色？<br><br>
+                                是默默耕耘的牛？還是雷厲風行的豹？<br>
+                                只需 5 題，立刻測出你的隱藏屬性與生存法則！
+                            </p>
+                            
+                            <div class="mt-4 flex items-center justify-between opacity-40">
+                                <div class="flex gap-1">
+                                    <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
+                                    <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
+                                    <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
+                                </div>
+                                <i class="ph-bold ph-lightning text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 按鈕區 -->
+                    <div class="p-5 w-full relative flex justify-center flex-shrink-0">
+                        <button onclick="startQuiz()" class="w-[75%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black text-lg py-3.5 rounded-full hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
+                            START DISCOVERY
+                            <i class="ph-bold ph-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 測驗頁 -->
         <div id="page-quiz" class="page" style="background-color: var(--color-white);">
-            <div class="flex items-center justify-between p-4 border-b-2 border-[#111]">
+            <div class="flex items-center justify-between p-4 border-b-2 border-[#111] flex-shrink-0">
                 <button onclick="restartQuiz()" class="font-black text-xl px-2">←</button>
                 <div class="text-xs font-black tracking-widest">QUESTION <span id="question-counter">1/5</span></div>
                 <div class="w-8"></div>
             </div>
             
-            <div class="w-full h-2 bg-gray-200">
+            <div class="w-full h-2 bg-gray-200 flex-shrink-0">
                 <div id="progress-bar" class="h-full bg-[#FF6B00] transition-all duration-300 w-0"></div>
             </div>
 
@@ -347,9 +351,7 @@
                             <div id="result-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026/05/08 15:08</div>
                         </div>
                         <div class="absolute right-5 h-5 flex items-center">
-                            <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">
-                                YOUR PERSONALITY TYPE IS
-                            </span>
+                            <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">YOUR PERSONALITY TYPE IS</span>
                         </div>
                     </div>
                     
@@ -358,9 +360,7 @@
                             <span id="result-catchphrase" class="text-xl font-black whitespace-nowrap z-10 relative bg-white px-1">天生就混</span>
                             <svg width="24" height="16" viewBox="0 0 30 20" class="fill-current"><path d="M20 0 L30 10 L20 20 L17 17 L22 12 L0 12 L0 8 L22 8 L17 3 Z"/></svg>
                         </div>
-                        <h1 id="result-title" class="text-[2.2rem] font-black leading-none tracking-tight pb-1 pt-0.5 bg-white px-2 border-2 border-[#111] whitespace-nowrap">
-                            草系圈
-                        </h1>
+                        <h1 id="result-title" class="text-[2.2rem] font-black leading-none tracking-tight pb-1 pt-0.5 bg-white px-2 border-2 border-[#111] whitespace-nowrap">草系圈</h1>
                     </div>
                 </div>
 
@@ -408,7 +408,7 @@
             </div>
         </div>
 
-        <!-- 分享彈窗 -->
+        <!-- 分享彈窗 (Bottom Sheet) -->
         <div id="share-modal-overlay" class="absolute inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeShareModal()"></div>
         <div id="share-modal-sheet" class="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl border-t-[3px] border-x-[3px] border-[#111] z-50 transform translate-y-full transition-transform duration-300 flex flex-col p-6 shadow-[0_-10px_20px_rgba(0,0,0,0.1)] pb-8">
             <div class="flex justify-between items-center mb-6">
