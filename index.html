@@ -129,7 +129,7 @@
         .vertical-text {
             writing-mode: vertical-rl;
             text-orientation: upright;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.2em; /* 縮減間距以適應手機 */
         }
 
         /* ================= 膠囊標籤 (Pill Tags) ================= */
@@ -137,9 +137,9 @@
             background-color: var(--color-white);
             border: 2px solid var(--color-line);
             border-radius: 999px;
-            padding: 6px 16px; 
+            padding: 4px 10px; /* 縮減內距防止擠壓 */
             font-weight: 900; 
-            font-size: 15px; 
+            font-size: 12px; /* 標籤文字縮小 */
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -148,9 +148,10 @@
         }
         .pill-vertical {
             writing-mode: vertical-rl;
-            padding: 18px 8px; 
+            padding: 10px 5px; 
             border-radius: 999px;
-            letter-spacing: 0.15em;
+            letter-spacing: 0.05em;
+            font-size: 11px;
         }
 
         /* ================= 結果頁專屬網格排版 ================= */
@@ -164,7 +165,7 @@
         }
 
         .poster-header {
-            padding: 16px 20px 0 20px;
+            padding: 12px 16px 0 16px;
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
@@ -173,9 +174,10 @@
         .poster-mid {
             background-color: var(--theme-mid);
             display: grid;
-            grid-template-columns: 44px 1fr 130px;
+            /* 進一步縮小角色區寬度：從 120px 降至 95px */
+            grid-template-columns: 44px 1fr 95px;
             flex-grow: 1; 
-            min-height: 200px;
+            min-height: 180px;
             transition: background-color 0.5s ease;
         }
         .poster-mid .title-col {
@@ -231,7 +233,7 @@
         .text-shining-effect {
             color: #FF6B00; 
             font-style: italic;
-            -webkit-text-stroke: 4px #FFFFFF;
+            -webkit-text-stroke: 3px #FFFFFF; /* 稍微縮小描邊防止字糊掉 */
             paint-order: stroke fill;
             filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6)) 
                     drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
@@ -260,21 +262,14 @@
         
         <!-- 首頁 -->
         <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
-            
-            <!-- 背景網格 -->
             <div class="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none transform -rotate-[30deg] opacity-[0.1]" 
                  style="background-image: linear-gradient(var(--color-ref-blue) 1px, transparent 1px), linear-gradient(90deg, var(--color-ref-blue) 1px, transparent 1px); background-size: 25px 25px;">
             </div>
-            
-            <!-- 背景裝飾點 -->
             <div class="absolute inset-0 opacity-[0.05]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 15px 15px;"></div>
-            
-            <!-- 裝飾流體色塊 -->
             <div class="absolute -top-10 -left-10 w-48 h-48 bg-[#FFF2A7] rounded-full opacity-30 blur-3xl"></div>
             <div class="absolute top-1/4 -right-10 w-40 h-40 border-[4px] border-[#111] rounded-full opacity-10"></div>
 
             <div class="flex-grow flex flex-col relative z-10 h-full">
-                <!-- Header -->
                 <div class="p-5 flex justify-between items-center flex-shrink-0">
                     <div class="flex items-center gap-2 h-5">
                         <div class="w-5 h-5 rounded-full border-2 border-[#111] bg-white"></div>
@@ -285,31 +280,23 @@
                     </div>
                 </div>
 
-                <!-- 內容分配 -->
                 <div class="flex-grow flex flex-col py-2 px-5">
-                    <!-- 主標題區 -->
                     <div class="relative flex-shrink-0 mt-4 mb-10">
                         <div class="absolute -top-4 right-8 text-[#111] opacity-30 text-xl"><i class="ph-bold ph-plus"></i></div>
-                        
                         <div class="relative inline-block">
                             <div class="text-4xl font-black mb-1 relative z-10 text-[#004B8D]">天生就該</div>
                             <div class="absolute -left-1 top-1 text-4xl font-black text-white opacity-50 z-0">天生就該</div>
                         </div>
-                        
                         <div class="relative mt-2">
                             <div class="text-7xl font-black tracking-tighter leading-none text-shining-effect relative z-10">發光發熱</div>
                             <div class="absolute -bottom-1 left-0 w-full h-8 bg-[#D5E86D] -z-10 transform -rotate-1 opacity-60"></div>
                         </div>
                     </div>
 
-                    <!-- 測驗介紹框 -->
                     <div class="relative">
-                        <!-- Discovery 藍色標籤 -->
                         <div class="absolute -top-3.5 left-4 bg-[#004B8D] text-white px-5 py-1 text-sm font-black italic tracking-widest z-20 shadow-[2px_2px_0_rgba(0,0,0,0.15)]">
                             DISCOVERY
                         </div>
-                        
-                        <!-- 白色介紹方塊 -->
                         <div class="bg-white border-2 border-[#111] p-7 pt-9 relative shadow-[8px_8px_0_#111]">
                             <p class="font-bold leading-relaxed text-[15px] text-[#111] mb-8">
                                 在危機四伏的職場叢林中，<br>
@@ -318,8 +305,6 @@
                                 只需 5 題，立刻測出你的隱藏屬性與<br>
                                 生存法則！
                             </p>
-                            
-                            <!-- 底部裝飾 -->
                             <div class="flex items-center justify-between opacity-30">
                                 <div class="flex gap-1.5">
                                     <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
@@ -331,7 +316,6 @@
                         </div>
                     </div>
 
-                    <!-- 按鈕區 -->
                     <div class="mt-auto pb-10 w-full relative flex justify-center flex-shrink-0">
                         <button onclick="startQuiz()" class="w-[85%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black text-lg py-4 rounded-full hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
                             START DISCOVERY
@@ -349,11 +333,9 @@
                 <div class="text-xs font-black tracking-widest">QUESTION <span id="question-counter">1/5</span></div>
                 <div class="w-8"></div>
             </div>
-            
             <div class="w-full h-2 bg-gray-200 flex-shrink-0">
                 <div id="progress-bar" class="h-full bg-[#FF6B00] transition-all duration-300 w-0"></div>
             </div>
-
             <div class="flex-grow flex flex-col p-6 mt-4 overflow-y-auto">
                 <h2 id="question-text" class="text-2xl font-black leading-snug mb-10">載入題目中...</h2>
                 <div id="options-container" class="flex flex-col gap-4 mt-auto pb-8"></div>
@@ -363,7 +345,6 @@
         <!-- 結果頁 -->
         <div id="page-result" class="page">
             <div class="flex flex-col h-full">
-                <!-- 海報主體 -->
                 <div id="poster-layout">
                     <div class="poster-header relative">
                         <div class="flex justify-between items-start mb-2">
@@ -375,13 +356,12 @@
                                 <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">YOUR PERSONALITY TYPE IS</span>
                             </div>
                         </div>
-                        
                         <div class="flex items-center mb-4 gap-2 w-full">
                             <div class="flex-shrink-0 flex items-center gap-1.5">
                                 <span id="result-catchphrase" class="text-xl font-black whitespace-nowrap z-10 relative bg-white px-1">天生就混</span>
                                 <svg width="24" height="16" viewBox="0 0 30 20" class="fill-current"><path d="M20 0 L30 10 L20 20 L17 17 L22 12 L0 12 L0 8 L22 8 L17 3 Z"/></svg>
                             </div>
-                            <h1 id="result-title" class="text-[2.2rem] font-black leading-none tracking-tight pb-1 pt-0.5 bg-white px-2 border-2 border-[#111] whitespace-nowrap">草系圈</h1>
+                            <h1 id="result-title" class="text-[2.1rem] font-black leading-none tracking-tight pb-1 pt-0.5 bg-white px-2 border-2 border-[#111] whitespace-nowrap">草系圈</h1>
                         </div>
                     </div>
 
@@ -394,34 +374,38 @@
 
                     <div class="poster-mid border-b-[2px] border-[#111]">
                         <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">內心表現</span></div>
-                        <div class="p-4 flex gap-3 items-center justify-between">
-                            <div id="inner-tags-horizontal" class="flex flex-wrap gap-2 justify-center items-center flex-1"></div>
-                            <div id="inner-tags-vertical" class="flex-shrink-0"></div>
+                        <!-- 優化標籤區容器：使用 justify-between 與精簡 padding -->
+                        <div class="px-1.5 py-4 flex items-center justify-between overflow-hidden">
+                            <div id="inner-tags-horizontal" class="flex flex-wrap gap-1 justify-center items-center flex-1"></div>
+                            <!-- 為直式容器增加 margin 與 shrink 禁止 -->
+                            <div id="inner-tags-vertical" class="flex-shrink-0 ml-1.5 flex items-center"></div>
                         </div>
+                        <!-- 縮小角色區：從 120px 降至 95px -->
                         <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
                             <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
-                            <div class="absolute top-2 left-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                            <div class="absolute top-2 right-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                            <div class="absolute bottom-2 left-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                            <div class="absolute bottom-2 right-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                            <div class="absolute left-1/2 -translate-x-1/2 top-4 text-[#e0e0e0] font-black text-4xl tracking-widest pointer-events-none select-none opacity-60">TYPE</div>
-                            <div id="result-icon" class="text-[5.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">🌿</div>
-                            <div class="absolute -bottom-6 -right-4 w-28 h-28 rounded-full opacity-90 mix-blend-multiply transition-colors" style="background-color: var(--theme-bot);"></div>
-                            <div class="absolute top-1/3 -left-3 w-10 h-10 border-[3px] rounded-full opacity-40 transition-colors" style="border-color: var(--theme-mid-dark);"></div>
+                            <div class="absolute top-2 left-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute top-2 right-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute bottom-2 left-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute bottom-2 right-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute left-1/2 -translate-x-1/2 top-4 text-[#e0e0e0] font-black text-2xl tracking-widest pointer-events-none select-none opacity-40">TYPE</div>
+                            <!-- 角色圖尺寸微調 -->
+                            <div id="result-icon" class="text-[4.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">🌿</div>
+                            <div class="absolute -bottom-6 -right-4 w-24 h-24 rounded-full opacity-90 mix-blend-multiply transition-colors" style="background-color: var(--theme-bot);"></div>
+                            <div class="absolute top-1/3 -left-3 w-8 h-8 border-[2px] rounded-full opacity-40 transition-colors" style="border-color: var(--theme-mid-dark);"></div>
                             <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-[2px] opacity-30">
-                                <div class="w-[2px] h-2.5 bg-[#111]"></div><div class="w-[1px] h-2.5 bg-[#111]"></div><div class="w-[3px] h-2.5 bg-[#111]"></div><div class="w-[1px] h-2.5 bg-[#111]"></div><div class="w-[2px] h-2.5 bg-[#111]"></div>
+                                <div class="w-[2px] h-2 bg-[#111]"></div><div class="w-[1px] h-2 bg-[#111]"></div><div class="w-[3px] h-2 bg-[#111]"></div>
                             </div>
                         </div>
                     </div>
 
                     <div class="poster-bot border-b-[0px]">
                         <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">外在特徵</span></div>
-                        <div class="p-6 flex flex-col h-full">
-                            <div id="outer-tags-container" class="flex flex-wrap gap-x-2 gap-y-3 justify-center content-start mt-4"></div>
+                        <div class="p-4 flex flex-col h-full">
+                            <div id="outer-tags-container" class="flex flex-wrap gap-x-1.5 gap-y-2.5 justify-center content-start mt-2"></div>
                         </div>
                     </div>
 
-                    <!-- 新增底部獨立格位 -->
+                    <!-- 底部獨立格位 -->
                     <div class="poster-footer-box" style="background-color: var(--theme-bot-dark);">
                         <div style="background-color: var(--theme-mid-dark); border-right: 2px solid white;"></div>
                         <div class="py-4 flex items-center justify-center">
