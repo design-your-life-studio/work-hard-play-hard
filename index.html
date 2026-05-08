@@ -33,7 +33,7 @@
             --color-bg: #f4f4f4;
             --color-line: #111111;
             --color-white: #ffffff;
-            /* 參考圖藍色 */
+            /* 參考圖深藍色 */
             --color-ref-blue: #004B8D;
             /* 首頁亮橘色 */
             --color-ref-orange: #FF6B00;
@@ -45,9 +45,11 @@
             width: 100%;
             margin: 0;
             padding: 0;
-            overflow: hidden; /* 禁止全域滾動 */
-            overscroll-behavior: none; /* 關鍵：禁止行動裝置下拉重新整理與回彈 */
-            position: fixed; /* 徹底固定位置 */
+            overflow: hidden; 
+            overscroll-behavior: none; 
+            position: fixed; 
+            top: 0;
+            left: 0;
         }
 
         body {
@@ -111,10 +113,8 @@
             position: absolute;
             top: 0; left: 0;
             background-color: var(--color-white);
-            overflow-y: auto; 
-            overflow-x: hidden;
-            /* 針對頁面內部的滾動也要防止回彈 */
-            overscroll-behavior-y: contain; 
+            overflow: hidden; 
+            overscroll-behavior-y: none; 
         }
         .page.active {
             display: flex;
@@ -157,22 +157,25 @@
         #poster-layout {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            flex-grow: 1; 
             background-color: var(--theme-header);
             transition: background-color 0.5s ease;
+            overflow: hidden;
         }
 
         .poster-header {
             padding: 16px 20px 0 20px;
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
         }
         
         .poster-mid {
             background-color: var(--theme-mid);
             display: grid;
             grid-template-columns: 44px 1fr 130px;
-            min-height: 220px;
+            flex-grow: 1; 
+            min-height: 200px;
             transition: background-color 0.5s ease;
         }
         .poster-mid .title-col {
@@ -202,6 +205,15 @@
             transition: background-color 0.5s ease;
         }
 
+        /* 結果頁底部格位 */
+        .poster-footer-box {
+            display: grid;
+            grid-template-columns: 44px 1fr;
+            border-top: 2px solid var(--color-line);
+            transition: background-color 0.5s ease;
+            flex-shrink: 0;
+        }
+
         .quiz-option {
             transition: all 0.2s;
             -webkit-tap-highlight-color: transparent;
@@ -215,7 +227,7 @@
 
         ::-webkit-scrollbar { width: 0px; }
 
-        /* ================= 特效：發光發熱 (新增發光動畫效果) ================= */
+        /* ================= 特效：發光發熱 (動畫效果) ================= */
         .text-shining-effect {
             color: #FF6B00; 
             font-style: italic;
@@ -246,7 +258,7 @@
 
     <div id="app-container">
         
-        <!-- 首頁 (優化排版，移除垂直捲動並固定於頂部) -->
+        <!-- 首頁 -->
         <div id="page-home" class="page active overflow-hidden" style="background: linear-gradient(to bottom, var(--theme-header) 0%, #ffffff 100%);">
             
             <!-- 背景網格 -->
@@ -262,7 +274,7 @@
             <div class="absolute top-1/4 -right-10 w-40 h-40 border-[4px] border-[#111] rounded-full opacity-10"></div>
 
             <div class="flex-grow flex flex-col relative z-10 h-full">
-                <!-- Header (鎖定於頂部) -->
+                <!-- Header -->
                 <div class="p-5 flex justify-between items-center flex-shrink-0">
                     <div class="flex items-center gap-2 h-5">
                         <div class="w-5 h-5 rounded-full border-2 border-[#111] bg-white"></div>
@@ -274,9 +286,9 @@
                 </div>
 
                 <!-- 內容分配 -->
-                <div class="flex-grow flex flex-col justify-between py-6">
+                <div class="flex-grow flex flex-col py-2 px-5">
                     <!-- 主標題區 -->
-                    <div class="px-5 relative">
+                    <div class="relative flex-shrink-0 mt-4 mb-10">
                         <div class="absolute -top-4 right-8 text-[#111] opacity-30 text-xl"><i class="ph-bold ph-plus"></i></div>
                         
                         <div class="relative inline-block">
@@ -291,30 +303,37 @@
                     </div>
 
                     <!-- 測驗介紹框 -->
-                    <div class="px-5 relative">
-                        <div class="bg-white border-2 border-[#111] p-6 relative shadow-[8px_8px_0_#111]">
-                            <div class="absolute -top-3 left-4 bg-[#004B8D] text-white px-3 py-0.5 text-xs font-black italic tracking-widest">DISCOVERY</div>
-                            <p class="font-bold leading-relaxed text-sm text-[#111]">
+                    <div class="relative">
+                        <!-- Discovery 藍色標籤 -->
+                        <div class="absolute -top-3.5 left-4 bg-[#004B8D] text-white px-5 py-1 text-sm font-black italic tracking-widest z-20 shadow-[2px_2px_0_rgba(0,0,0,0.15)]">
+                            DISCOVERY
+                        </div>
+                        
+                        <!-- 白色介紹方塊 -->
+                        <div class="bg-white border-2 border-[#111] p-7 pt-9 relative shadow-[8px_8px_0_#111]">
+                            <p class="font-bold leading-relaxed text-[15px] text-[#111] mb-8">
                                 在危機四伏的職場叢林中，<br>
                                 你扮演著什麼樣的角色？<br><br>
                                 是默默耕耘的牛？還是雷厲風行的豹？<br>
-                                只需 5 題，立刻測出你的隱藏屬性與生存法則！
+                                只需 5 題，立刻測出你的隱藏屬性與<br>
+                                生存法則！
                             </p>
                             
-                            <div class="mt-4 flex items-center justify-between opacity-40">
-                                <div class="flex gap-1">
-                                    <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
-                                    <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
-                                    <div class="w-1.5 h-1.5 bg-[#111] rounded-full"></div>
+                            <!-- 底部裝飾 -->
+                            <div class="flex items-center justify-between opacity-30">
+                                <div class="flex gap-1.5">
+                                    <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                                    <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                                    <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
                                 </div>
-                                <i class="ph-bold ph-lightning text-xl"></i>
+                                <i class="ph-bold ph-lightning text-2xl"></i>
                             </div>
                         </div>
                     </div>
 
                     <!-- 按鈕區 -->
-                    <div class="p-5 w-full relative flex justify-center flex-shrink-0">
-                        <button onclick="startQuiz()" class="w-[75%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black text-lg py-3.5 rounded-full hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
+                    <div class="mt-auto pb-10 w-full relative flex justify-center flex-shrink-0">
+                        <button onclick="startQuiz()" class="w-[85%] bg-[#FF6B00] border-[3.5px] border-white text-white font-black text-lg py-4 rounded-full hover:opacity-95 active:scale-95 transition-all flex items-center justify-center gap-3 shadow-[6px_6px_0_rgba(0,0,0,0.12)]">
                             START DISCOVERY
                             <i class="ph-bold ph-arrow-right"></i>
                         </button>
@@ -335,7 +354,7 @@
                 <div id="progress-bar" class="h-full bg-[#FF6B00] transition-all duration-300 w-0"></div>
             </div>
 
-            <div class="flex-grow flex flex-col p-6 mt-4">
+            <div class="flex-grow flex flex-col p-6 mt-4 overflow-y-auto">
                 <h2 id="question-text" class="text-2xl font-black leading-snug mb-10">載入題目中...</h2>
                 <div id="options-container" class="flex flex-col gap-4 mt-auto pb-8"></div>
             </div>
@@ -343,72 +362,83 @@
 
         <!-- 結果頁 -->
         <div id="page-result" class="page">
-            <div id="poster-layout">
-                <div class="poster-header relative">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="flex items-center gap-1.5 h-5">
-                            <div class="w-4 h-4 rounded-full border-[2px] border-[#111] bg-white"></div>
-                            <div id="result-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026/05/08 15:08</div>
+            <div class="flex flex-col h-full">
+                <!-- 海報主體 -->
+                <div id="poster-layout">
+                    <div class="poster-header relative">
+                        <div class="flex justify-between items-start mb-2">
+                            <div class="flex items-center gap-1.5 h-5">
+                                <div class="w-4 h-4 rounded-full border-[2px] border-[#111] bg-white"></div>
+                                <div id="result-date-display" class="font-black text-[10px] leading-none pt-[2px]">2026/05/08 15:08</div>
+                            </div>
+                            <div class="absolute right-5 h-5 flex items-center">
+                                <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">YOUR PERSONALITY TYPE IS</span>
+                            </div>
                         </div>
-                        <div class="absolute right-5 h-5 flex items-center">
-                            <span class="text-[10px] font-black tracking-widest leading-none pt-[2px]">YOUR PERSONALITY TYPE IS</span>
+                        
+                        <div class="flex items-center mb-4 gap-2 w-full">
+                            <div class="flex-shrink-0 flex items-center gap-1.5">
+                                <span id="result-catchphrase" class="text-xl font-black whitespace-nowrap z-10 relative bg-white px-1">天生就混</span>
+                                <svg width="24" height="16" viewBox="0 0 30 20" class="fill-current"><path d="M20 0 L30 10 L20 20 L17 17 L22 12 L0 12 L0 8 L22 8 L17 3 Z"/></svg>
+                            </div>
+                            <h1 id="result-title" class="text-[2.2rem] font-black leading-none tracking-tight pb-1 pt-0.5 bg-white px-2 border-2 border-[#111] whitespace-nowrap">草系圈</h1>
                         </div>
                     </div>
-                    
-                    <div class="flex items-center mb-4 gap-2 w-full">
-                        <div class="flex-shrink-0 flex items-center gap-1.5">
-                            <span id="result-catchphrase" class="text-xl font-black whitespace-nowrap z-10 relative bg-white px-1">天生就混</span>
-                            <svg width="24" height="16" viewBox="0 0 30 20" class="fill-current"><path d="M20 0 L30 10 L20 20 L17 17 L22 12 L0 12 L0 8 L22 8 L17 3 Z"/></svg>
+
+                    <div class="marquee-bar flex-shrink-0">
+                        <div class="marquee-inner">
+                            <div class="marquee-content">探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span> 探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span></div>
+                            <div class="marquee-content">探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span> 探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span></div>
                         </div>
-                        <h1 id="result-title" class="text-[2.2rem] font-black leading-none tracking-tight pb-1 pt-0.5 bg-white px-2 border-2 border-[#111] whitespace-nowrap">草系圈</h1>
+                    </div>
+
+                    <div class="poster-mid border-b-[2px] border-[#111]">
+                        <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">內心表現</span></div>
+                        <div class="p-4 flex gap-3 items-center justify-between">
+                            <div id="inner-tags-horizontal" class="flex flex-wrap gap-2 justify-center items-center flex-1"></div>
+                            <div id="inner-tags-vertical" class="flex-shrink-0"></div>
+                        </div>
+                        <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
+                            <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
+                            <div class="absolute top-2 left-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute top-2 right-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute bottom-2 left-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute bottom-2 right-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
+                            <div class="absolute left-1/2 -translate-x-1/2 top-4 text-[#e0e0e0] font-black text-4xl tracking-widest pointer-events-none select-none opacity-60">TYPE</div>
+                            <div id="result-icon" class="text-[5.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">🌿</div>
+                            <div class="absolute -bottom-6 -right-4 w-28 h-28 rounded-full opacity-90 mix-blend-multiply transition-colors" style="background-color: var(--theme-bot);"></div>
+                            <div class="absolute top-1/3 -left-3 w-10 h-10 border-[3px] rounded-full opacity-40 transition-colors" style="border-color: var(--theme-mid-dark);"></div>
+                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-[2px] opacity-30">
+                                <div class="w-[2px] h-2.5 bg-[#111]"></div><div class="w-[1px] h-2.5 bg-[#111]"></div><div class="w-[3px] h-2.5 bg-[#111]"></div><div class="w-[1px] h-2.5 bg-[#111]"></div><div class="w-[2px] h-2.5 bg-[#111]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="poster-bot border-b-[0px]">
+                        <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">外在特徵</span></div>
+                        <div class="p-6 flex flex-col h-full">
+                            <div id="outer-tags-container" class="flex flex-wrap gap-x-2 gap-y-3 justify-center content-start mt-4"></div>
+                        </div>
+                    </div>
+
+                    <!-- 新增底部獨立格位 -->
+                    <div class="poster-footer-box" style="background-color: var(--theme-bot-dark);">
+                        <div style="background-color: var(--theme-mid-dark); border-right: 2px solid white;"></div>
+                        <div class="py-4 flex items-center justify-center">
+                            <span class="text-white font-black text-[11px] tracking-[0.25em] uppercase italic">Stay true to yourself</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="marquee-bar">
-                    <div class="marquee-inner">
-                        <div class="marquee-content">探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span> 探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span></div>
-                        <div class="marquee-content">探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span> 探索你的隱藏職場人格 ✦2026 WORKPLACE BEAST TEST✦ <span class="ml-8"></span></div>
-                    </div>
+                <!-- 底部操作按鈕區 -->
+                <div class="bg-white border-t-2 border-[#111] p-3 flex gap-2 flex-shrink-0 z-20">
+                    <button onclick="restartQuiz()" class="flex-1 py-3 border-2 border-[#111] font-black text-sm active:bg-gray-100 flex justify-center items-center gap-1"><i class="ph-bold ph-arrow-counter-clockwise"></i> 再測一次</button>
+                    <button onclick="openShareModal()" class="flex-1 py-3 bg-[#111] text-white font-black text-sm active:opacity-80 flex justify-center items-center gap-1"><i class="ph-bold ph-share-network"></i> 分享結果</button>
                 </div>
-
-                <div class="poster-mid border-b-[2px] border-[#111]">
-                    <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">內心表現</span></div>
-                    <div class="p-4 flex gap-3 items-center justify-between">
-                        <div id="inner-tags-horizontal" class="flex flex-wrap gap-3 justify-center items-center flex-1"></div>
-                        <div id="inner-tags-vertical" class="flex-shrink-0"></div>
-                    </div>
-                    <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
-                        <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
-                        <div class="absolute top-2 left-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                        <div class="absolute top-2 right-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                        <div class="absolute bottom-2 left-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                        <div class="absolute bottom-2 right-2 text-[10px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
-                        <div class="absolute left-1/2 -translate-x-1/2 top-4 text-[#e0e0e0] font-black text-4xl tracking-widest pointer-events-none select-none opacity-60">TYPE</div>
-                        <div id="result-icon" class="text-[5.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">🌿</div>
-                        <div class="absolute -bottom-6 -right-4 w-28 h-28 rounded-full opacity-90 mix-blend-multiply transition-colors" style="background-color: var(--theme-bot);"></div>
-                        <div class="absolute top-1/3 -left-3 w-10 h-10 border-[3px] rounded-full opacity-40 transition-colors" style="border-color: var(--theme-mid-dark);"></div>
-                        <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-[2px] opacity-30">
-                            <div class="w-[2px] h-2.5 bg-[#111]"></div><div class="w-[1px] h-2.5 bg-[#111]"></div><div class="w-[3px] h-2.5 bg-[#111]"></div><div class="w-[1px] h-2.5 bg-[#111]"></div><div class="w-[2px] h-2.5 bg-[#111]"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="poster-bot">
-                    <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">外在特徵</span></div>
-                    <div class="p-6 flex flex-col h-full justify-between">
-                        <div id="outer-tags-container" class="flex flex-wrap gap-x-3 gap-y-4 justify-center content-start mt-8"></div>
-                        <div class="text-center font-black text-sm tracking-widest mt-6 uppercase border-t-2 border-dashed pt-3 transition-colors" style="color: var(--theme-mid-dark); border-color: var(--theme-mid-dark);">Stay true to yourself</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white border-t-2 border-[#111] p-3 flex gap-2 flex-shrink-0 z-20">
-                <button onclick="restartQuiz()" class="flex-1 py-3 border-2 border-[#111] font-black text-sm active:bg-gray-100 flex justify-center items-center gap-1"><i class="ph-bold ph-arrow-counter-clockwise"></i> 再測一次</button>
-                <button onclick="openShareModal()" class="flex-1 py-3 bg-[#111] text-white font-black text-sm active:opacity-80 flex justify-center items-center gap-1"><i class="ph-bold ph-share-network"></i> 分享結果</button>
             </div>
         </div>
 
-        <!-- 分享彈窗 (Bottom Sheet) -->
+        <!-- 分享彈窗 -->
         <div id="share-modal-overlay" class="absolute inset-0 bg-black/50 z-40 opacity-0 pointer-events-none transition-opacity duration-300" onclick="closeShareModal()"></div>
         <div id="share-modal-sheet" class="absolute bottom-0 left-0 w-full bg-white rounded-t-3xl border-t-[3px] border-x-[3px] border-[#111] z-50 transform translate-y-full transition-transform duration-300 flex flex-col p-6 shadow-[0_-10px_20px_rgba(0,0,0,0.1)] pb-8">
             <div class="flex justify-between items-center mb-6">
@@ -473,7 +503,13 @@
             document.documentElement.style.setProperty('--theme-bot-dark', theme.botDark);
         };
         const showToast = (msg) => { const t = document.getElementById('toast'); t.textContent = msg; t.style.opacity = '1'; setTimeout(() => t.style.opacity = '0', 3000); };
-        const switchPage = (hidePage, showPage) => { hidePage.style.display = 'none'; hidePage.classList.remove('active'); showPage.style.display = 'flex'; void showPage.offsetWidth; showPage.classList.add('active'); showPage.scrollTop = 0; };
+        const switchPage = (hidePage, showPage) => { 
+            hidePage.style.display = 'none'; 
+            hidePage.classList.remove('active'); 
+            showPage.style.display = 'flex'; 
+            void showPage.offsetWidth; 
+            showPage.classList.add('active'); 
+        };
         function startQuiz() { currentQuestionIndex = 0; totalScore = 0; switchPage(document.getElementById('page-home'), document.getElementById('page-quiz')); renderQuestion(); }
         function restartQuiz() { applyTheme(resultsData[7].theme); switchPage(document.querySelector('.page.active'), document.getElementById('page-home')); }
         function renderQuestion() {
