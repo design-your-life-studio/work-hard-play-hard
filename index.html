@@ -129,7 +129,7 @@
         .vertical-text {
             writing-mode: vertical-rl;
             text-orientation: upright;
-            letter-spacing: 0.2em; /* 縮減間距以適應手機 */
+            letter-spacing: 0.2em;
         }
 
         /* ================= 膠囊標籤 (Pill Tags) ================= */
@@ -137,21 +137,14 @@
             background-color: var(--color-white);
             border: 2px solid var(--color-line);
             border-radius: 999px;
-            padding: 4px 10px; /* 縮減內距防止擠壓 */
+            padding: 4px 10px; 
             font-weight: 900; 
-            font-size: 12px; /* 標籤文字縮小 */
+            font-size: 12px; 
             display: inline-flex;
             align-items: center;
             justify-content: center;
             box-shadow: 2px 2px 0 rgba(0,0,0,1); 
             white-space: nowrap;
-        }
-        .pill-vertical {
-            writing-mode: vertical-rl;
-            padding: 10px 5px; 
-            border-radius: 999px;
-            letter-spacing: 0.05em;
-            font-size: 11px;
         }
 
         /* ================= 結果頁專屬網格排版 ================= */
@@ -174,7 +167,6 @@
         .poster-mid {
             background-color: var(--theme-mid);
             display: grid;
-            /* 進一步縮小角色區寬度：從 120px 降至 95px */
             grid-template-columns: 44px 1fr 95px;
             flex-grow: 1; 
             min-height: 180px;
@@ -233,7 +225,7 @@
         .text-shining-effect {
             color: #FF6B00; 
             font-style: italic;
-            -webkit-text-stroke: 3px #FFFFFF; /* 稍微縮小描邊防止字糊掉 */
+            -webkit-text-stroke: 3px #FFFFFF;
             paint-order: stroke fill;
             filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6)) 
                     drop-shadow(4px 4px 0px rgba(0,0,0,0.15));
@@ -345,6 +337,7 @@
         <!-- 結果頁 -->
         <div id="page-result" class="page">
             <div class="flex flex-col h-full">
+                <!-- 海報主體 -->
                 <div id="poster-layout">
                     <div class="poster-header relative">
                         <div class="flex justify-between items-start mb-2">
@@ -374,13 +367,10 @@
 
                     <div class="poster-mid border-b-[2px] border-[#111]">
                         <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">內心表現</span></div>
-                        <!-- 優化標籤區容器：使用 justify-between 與精簡 padding -->
-                        <div class="px-1.5 py-4 flex items-center justify-between overflow-hidden">
-                            <div id="inner-tags-horizontal" class="flex flex-wrap gap-1 justify-center items-center flex-1"></div>
-                            <!-- 為直式容器增加 margin 與 shrink 禁止 -->
-                            <div id="inner-tags-vertical" class="flex-shrink-0 ml-1.5 flex items-center"></div>
+                        <!-- 優化標籤區容器：移除所有直式膠囊 -->
+                        <div class="px-1.5 py-4 flex items-center justify-center overflow-hidden">
+                            <div id="inner-tags-horizontal" class="flex flex-wrap gap-1.5 justify-center items-center flex-1"></div>
                         </div>
-                        <!-- 縮小角色區：從 120px 降至 95px -->
                         <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
                             <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
                             <div class="absolute top-2 left-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
@@ -388,7 +378,6 @@
                             <div class="absolute bottom-2 left-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
                             <div class="absolute bottom-2 right-2 text-[8px]" style="color: var(--theme-mid);"><i class="ph-bold ph-plus"></i></div>
                             <div class="absolute left-1/2 -translate-x-1/2 top-4 text-[#e0e0e0] font-black text-2xl tracking-widest pointer-events-none select-none opacity-40">TYPE</div>
-                            <!-- 角色圖尺寸微調 -->
                             <div id="result-icon" class="text-[4.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">🌿</div>
                             <div class="absolute -bottom-6 -right-4 w-24 h-24 rounded-full opacity-90 mix-blend-multiply transition-colors" style="background-color: var(--theme-bot);"></div>
                             <div class="absolute top-1/3 -left-3 w-8 h-8 border-[2px] rounded-full opacity-40 transition-colors" style="border-color: var(--theme-mid-dark);"></div>
@@ -399,9 +388,13 @@
                     </div>
 
                     <div class="poster-bot border-b-[0px]">
-                        <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">外在特徵</span></div>
-                        <div class="p-4 flex flex-col h-full">
-                            <div id="outer-tags-container" class="flex flex-wrap gap-x-1.5 gap-y-2.5 justify-center content-start mt-2"></div>
+                        <!-- 外在特徵標題：與內容垂直置中 -->
+                        <div class="title-col flex items-center justify-center">
+                            <span class="vertical-text text-lg font-black tracking-widest py-4">外在特徵</span>
+                        </div>
+                        <!-- 外在特徵標籤容器：垂直置中對齊 -->
+                        <div class="p-4 flex flex-col h-full justify-center">
+                            <div id="outer-tags-container" class="flex flex-wrap gap-x-1.5 gap-y-2.5 justify-center content-center"></div>
                         </div>
                     </div>
 
@@ -467,14 +460,14 @@
         ];
 
         const resultsData = [
-            { title: "霸總獅子", catchphrase: "天生就霸", icon: "🦁", innerTags: ["原地發號施令", "這局我來", "掌控全局", {text:"(深呼吸)", type:"vertical"}], outerTags: ["霸氣外露", "走路有風", "效率一流", "西裝控", "眼神殺", "氣場兩米八"], theme: { header: "#FDE8E8", marquee: "#FCA5A5", mid: "#F59E0B", midDark: "#D97706", bot: "#EF4444", botDark: "#DC2626", tagColors: ["#DC2626", "#D97706", "#B91C1C", "#9A3412"] } },
+            { title: "霸總獅子", catchphrase: "天生就霸", icon: "🦁", innerTags: ["原地發號施令", "這局我來", "掌控全局", "這事交給我", "(深呼吸)"], outerTags: ["霸氣外露", "走路有風", "效率一流", "西裝控", "眼神殺", "氣場兩米八"], theme: { header: "#FDE8E8", marquee: "#FCA5A5", mid: "#F59E0B", midDark: "#D97706", bot: "#EF4444", botDark: "#DC2626", tagColors: ["#DC2626", "#D97706", "#B91C1C", "#9A3412"] } },
             { title: "閃電獵豹", catchphrase: "天生就急", icon: "🐆", innerTags: ["受不了慢吞吞", "可以快點嗎", "搞定", "下一個", "不想廢話"], outerTags: ["語速超快", "行動派", "坐不住", "容易不耐煩", "喝黑咖啡"], theme: { header: "#FEF9C3", marquee: "#FDE047", mid: "#38BDF8", midDark: "#0284C7", bot: "#FACC15", botDark: "#EAB308", tagColors: ["#0284C7", "#EAB308", "#0369A1", "#CA8A04"] } },
-            { title: "人氣海豚", catchphrase: "天生就聊", icon: "🐬", innerTags: ["氣氛不能乾", "大家都好嗎", "交給我來喬", {text:"(內心偷笑)", type:"vertical"}], outerTags: ["笑容滿面", "零食大戶", "大家都認識", "開會開心果", "超會讀空氣"], theme: { header: "#E0F2FE", marquee: "#7DD3FC", mid: "#2DD4BF", midDark: "#0D9488", bot: "#38BDF8", botDark: "#0284C7", tagColors: ["#0D9488", "#0284C7", "#0F766E", "#0369A1"] } },
+            { title: "人氣海豚", catchphrase: "天生就聊", icon: "🐬", innerTags: ["氣氛不能乾", "大家都好嗎", "交給我來喬", "大家辛苦了", "(內心偷笑)"], outerTags: ["笑容滿面", "零食大戶", "大家都認識", "開會開心果", "超會讀空氣"], theme: { header: "#E0F2FE", marquee: "#7DD3FC", mid: "#2DD4BF", midDark: "#0D9488", bot: "#38BDF8", botDark: "#0284C7", tagColors: ["#0D9488", "#0284C7", "#0F766E", "#0369A1"] } },
             { title: "閃電變色龍", catchphrase: "天生就閃", icon: "🦎", innerTags: ["見機行事", "老闆今天心情差", "躲過一劫", "先不說話", "安全下莊"], outerTags: ["穿著低調", "神出鬼沒", "求生欲極強", "萬用背鍋俠", "超圓滑"], theme: { header: "#F3E8FF", marquee: "#D8B4FE", mid: "#F472B6", midDark: "#DB2777", bot: "#C084FC", botDark: "#A855F7", tagColors: ["#DB2777", "#A855F7", "#BE185D", "#9333EA"] } },
-            { title: "智囊貓頭鷹", catchphrase: "天生就醒", icon: "🦉", innerTags: ["這邏輯不對吧", "數據在哪", "早說過了", {text:"(推眼鏡)", type:"vertical"}], outerTags: ["冷靜面癱", "條理分明", "Excel大師", "字斟酌句", "夜貓子"], theme: { header: "#E0E7FF", marquee: "#A5B4FC", mid: "#64748B", midDark: "#475569", bot: "#818CF8", botDark: "#6366F1", tagColors: ["#475569", "#6366F1", "#334155", "#4F46E5"] } },
-            { title: "耕耘黃牛", catchphrase: "天生就扛", icon: "🐂", innerTags: ["只好我來了", "加班加起來", "這也太難", "想放假", {text:"(嘆氣)", type:"vertical"}], outerTags: ["桌面超亂", "保溫杯必備", "最坦隊友", "吃苦耐勞", "默默發光"], theme: { header: "#FFEDD5", marquee: "#FDBA74", mid: "#A8A29E", midDark: "#78716C", bot: "#FB923C", botDark: "#F97316", tagColors: ["#78716C", "#F97316", "#57534E", "#EA580C"] } },
+            { title: "智囊貓頭鷹", catchphrase: "天生就醒", icon: "🦉", innerTags: ["這邏輯不對吧", "數據在哪", "早說過了", "我看見漏洞", "(推眼鏡)"], outerTags: ["冷靜面癱", "條理分明", "Excel大師", "字斟酌句", "夜貓子"], theme: { header: "#E0E7FF", marquee: "#A5B4FC", mid: "#64748B", midDark: "#475569", bot: "#818CF8", botDark: "#6366F1", tagColors: ["#475569", "#6366F1", "#334155", "#4F46E5"] } },
+            { title: "耕耘黃牛", catchphrase: "天生就扛", icon: "🐂", innerTags: ["只好我來了", "加班加起來", "這也太難", "想放假", "(嘆氣)"], outerTags: ["桌面超亂", "保溫杯必備", "最坦隊友", "吃苦耐勞", "默默發光"], theme: { header: "#FFEDD5", marquee: "#FDBA74", mid: "#A8A29E", midDark: "#78716C", bot: "#FB923C", botDark: "#F97316", tagColors: ["#78716C", "#F97316", "#57534E", "#EA580C"] } },
             { title: "佛系無尾熊", catchphrase: "天生就睡", icon: "🐨", innerTags: ["隨緣啦", "都好啊", "好想睡", "不關我的事", "下班了嗎"], outerTags: ["動作超慢", "老人作息", "脾氣超好", "容易累", "桌上有盆栽"], theme: { header: "#F3F4F6", marquee: "#D1D5DB", mid: "#9CA3AF", midDark: "#6B7280", bot: "#A7F3D0", botDark: "#34D399", tagColors: ["#6B7280", "#10B981", "#4B5563", "#059669"] } },
-            { title: "療癒水豚", catchphrase: "天生就混", icon: "🦦", innerTags: ["原地嚇到", "我來幫忙吧", "我可以的", "也想被照顧...", {text:"(深呼吸)", type:"vertical"}], outerTags: ["暖男暖女", "喜歡團聚過節", "老人作息", "森林系打扮", "容易累", "喜歡的店吃一週"], theme: { header: "#E3EFD4", marquee: "#D5E86D", mid: "#68A19F", midDark: "#5C9493", bot: "#B6E64F", botDark: "#A2CE45", tagColors: ["#A2CE45", "#68A19F", "#ff9f43", "#ee5253"] } }
+            { title: "療癒水豚", catchphrase: "天生就混", icon: "🦦", innerTags: ["原地嚇到", "我來幫忙吧", "我可以的", "也想被照顧...", "(深呼吸)"], outerTags: ["暖男暖女", "喜歡團聚過節", "老人作息", "森林系打扮", "容易累", "喜歡的店吃一週"], theme: { header: "#E3EFD4", marquee: "#D5E86D", mid: "#68A19F", midDark: "#5C9493", bot: "#B6E64F", botDark: "#A2CE45", tagColors: ["#A2CE45", "#68A19F", "#ff9f43", "#ee5253"] } }
         ];
 
         let currentQuestionIndex = 0, totalScore = 0, currentResultTitle = "";
@@ -524,14 +517,18 @@
             document.getElementById('result-icon').textContent = result.icon; document.getElementById('result-title').textContent = result.title; document.getElementById('result-catchphrase').textContent = result.catchphrase;
             const now = new Date(); const pad = n => String(n).padStart(2, '0');
             document.getElementById('result-date-display').innerHTML = `${now.getFullYear()}/${pad(now.getMonth() + 1)}/${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
-            const innerH = document.getElementById('inner-tags-horizontal'), innerV = document.getElementById('inner-tags-vertical');
-            innerH.innerHTML = ''; innerV.innerHTML = '';
+            
+            // 統一橫式膠囊渲染
+            const innerH = document.getElementById('inner-tags-horizontal');
+            innerH.innerHTML = '';
             result.innerTags.forEach((tag) => {
                 const text = typeof tag === 'object' ? tag.text : tag;
-                const span = document.createElement('span'); span.className = `pill-tag ${tag.type === 'vertical' ? 'pill-vertical' : ''}`;
+                const span = document.createElement('span');
+                span.className = `pill-tag`;
                 span.style.color = 'var(--theme-mid-dark)'; span.textContent = text;
-                if (tag.type === 'vertical') innerV.appendChild(span); else innerH.appendChild(span);
+                innerH.appendChild(span);
             });
+
             const outerC = document.getElementById('outer-tags-container'); outerC.innerHTML = '';
             result.outerTags.forEach((tag, idx) => {
                 const span = document.createElement('span'); span.className = `pill-tag`;
