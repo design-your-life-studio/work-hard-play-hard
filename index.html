@@ -139,12 +139,13 @@
             border-radius: 999px;
             padding: 4px 10px; 
             font-weight: 900; 
-            font-size: 12px; 
+            font-size: 11px; /* 針對小螢幕微調 */
             display: inline-flex;
             align-items: center;
             justify-content: center;
             box-shadow: 2px 2px 0 rgba(0,0,0,1); 
             white-space: nowrap;
+            width: fit-content;
         }
 
         /* ================= 結果頁專屬網格排版 ================= */
@@ -339,7 +340,7 @@
             <div class="flex flex-col h-full">
                 <!-- 海報主體 -->
                 <div id="poster-layout">
-                    <div class="poster-header relative">
+                    <div class="poster-header relative flex-shrink-0">
                         <div class="flex justify-between items-start mb-2">
                             <div class="flex items-center gap-1.5 h-5">
                                 <div class="w-4 h-4 rounded-full border-[2px] border-[#111] bg-white"></div>
@@ -365,11 +366,14 @@
                         </div>
                     </div>
 
+                    <!-- 內心表現區 -->
                     <div class="poster-mid border-b-[2px] border-[#111]">
-                        <div class="title-col"><span class="vertical-text text-lg font-black tracking-widest py-4">內心表現</span></div>
-                        <!-- 優化標籤區容器：移除所有直式膠囊 -->
-                        <div class="px-1.5 py-4 flex items-center justify-center overflow-hidden">
-                            <div id="inner-tags-horizontal" class="flex flex-wrap gap-1.5 justify-center items-center flex-1"></div>
+                        <div class="title-col flex items-center justify-center">
+                            <span class="vertical-text text-lg font-black tracking-widest py-4">內心表現</span>
+                        </div>
+                        <!-- 修改：改用 flex-wrap 並限制最大寬度以達到向中靠攏效果 -->
+                        <div class="flex items-center justify-center overflow-hidden">
+                            <div id="inner-tags-container" class="flex flex-wrap justify-center gap-1.5 max-w-[170px] mx-auto"></div>
                         </div>
                         <div class="border-l-[2px] border-white flex flex-col items-center justify-center bg-[#f4f4f4] relative overflow-hidden">
                             <div class="absolute inset-0 opacity-[0.08]" style="background-image: radial-gradient(#111 1.5px, transparent 1.5px); background-size: 12px 12px;"></div>
@@ -381,20 +385,17 @@
                             <div id="result-icon" class="text-[4.5rem] z-10 transform hover:scale-110 transition-transform drop-shadow-[4px_6px_0_rgba(0,0,0,0.2)] mt-2">🌿</div>
                             <div class="absolute -bottom-6 -right-4 w-24 h-24 rounded-full opacity-90 mix-blend-multiply transition-colors" style="background-color: var(--theme-bot);"></div>
                             <div class="absolute top-1/3 -left-3 w-8 h-8 border-[2px] rounded-full opacity-40 transition-colors" style="border-color: var(--theme-mid-dark);"></div>
-                            <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-[2px] opacity-30">
-                                <div class="w-[2px] h-2 bg-[#111]"></div><div class="w-[1px] h-2 bg-[#111]"></div><div class="w-[3px] h-2 bg-[#111]"></div>
-                            </div>
                         </div>
                     </div>
 
+                    <!-- 外在特徵區 -->
                     <div class="poster-bot border-b-[0px]">
-                        <!-- 外在特徵標題：與內容垂直置中 -->
                         <div class="title-col flex items-center justify-center">
                             <span class="vertical-text text-lg font-black tracking-widest py-4">外在特徵</span>
                         </div>
-                        <!-- 外在特徵標籤容器：垂直置中對齊 -->
-                        <div class="p-4 flex flex-col h-full justify-center">
-                            <div id="outer-tags-container" class="flex flex-wrap gap-x-1.5 gap-y-2.5 justify-center content-center"></div>
+                        <!-- 修改：同樣改用 flex-wrap 並設定更大寬度以容納三顆膠囊，並確保垂直置中 -->
+                        <div class="flex flex-col h-full justify-center">
+                            <div id="outer-tags-container" class="flex flex-wrap justify-center gap-1.5 max-w-[280px] mx-auto"></div>
                         </div>
                     </div>
 
@@ -518,21 +519,24 @@
             const now = new Date(); const pad = n => String(n).padStart(2, '0');
             document.getElementById('result-date-display').innerHTML = `${now.getFullYear()}/${pad(now.getMonth() + 1)}/${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
             
-            // 統一橫式膠囊渲染
-            const innerH = document.getElementById('inner-tags-horizontal');
-            innerH.innerHTML = '';
+            // 渲染內心標籤
+            const innerC = document.getElementById('inner-tags-container');
+            innerC.innerHTML = '';
             result.innerTags.forEach((tag) => {
                 const text = typeof tag === 'object' ? tag.text : tag;
                 const span = document.createElement('span');
                 span.className = `pill-tag`;
                 span.style.color = 'var(--theme-mid-dark)'; span.textContent = text;
-                innerH.appendChild(span);
+                innerC.appendChild(span);
             });
 
-            const outerC = document.getElementById('outer-tags-container'); outerC.innerHTML = '';
+            // 渲染外在標籤
+            const outerC = document.getElementById('outer-tags-container'); 
+            outerC.innerHTML = '';
             result.outerTags.forEach((tag, idx) => {
                 const span = document.createElement('span'); span.className = `pill-tag`;
-                span.style.color = result.theme.tagColors[idx % result.theme.tagColors.length]; span.textContent = tag; outerC.appendChild(span);
+                span.style.color = result.theme.tagColors[idx % result.theme.tagColors.length]; span.textContent = tag; 
+                outerC.appendChild(span);
             });
             switchPage(document.getElementById('page-quiz'), document.getElementById('page-result'));
         }
